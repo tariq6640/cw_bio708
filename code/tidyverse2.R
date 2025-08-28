@@ -54,3 +54,32 @@ iris_l <- iris_sub %>%
                values_to = "Sepal.Length") # column values move to "Sepal.Length"
 
 print(iris_l)
+
+
+
+# Join --------------------------------------------------------------------
+
+(df1 <- tibble(Species = c("A", "B", "C"),
+              x = c(1, 2, 3)))
+
+(df2 <- tibble(Species = c("A", "B", "C"),
+              y = c(4, 5, 6)))
+
+left_join(x = df1,
+          y = df2,
+          by = "Species")
+
+## what happen if df2 doesnot contain species B
+
+df12_minus_B <- tibble(Species = c("A", "C"),
+                       y = c(4, 6))
+left_join(x = df1,
+          y = df2,
+          by = "Species")
+left_join(x = df2,
+          y = df1,
+          by = "Species")
+
+
+
+
