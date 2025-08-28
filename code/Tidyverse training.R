@@ -3,6 +3,9 @@ library(tidyverse)
 
 # Grouping ----------------------------------------------------------------
 
+iris_sub <- iris %>%
+  select(Sepal.Length, Sepal.Width, Species) %>%
+  filter(Species %in% c("setosa", "versicolor", "virginica"))
 print(iris_sub)
 
 iris_sub %>% 
