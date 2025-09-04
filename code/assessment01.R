@@ -243,10 +243,77 @@ df_mtcars %>%
 
 # 17: Identify the heaviest car make (`wt`) among cars with 6 cylinders (`cyl`).
 
+df_mtcars$make <- rownames(mtcars)
 
-df_mtcars %>%
-  filter(cyl == 6) %>%
-  arrange(desc(wt)) %>%
-  slice(1) %>%
+df_mtcars %>% filter(cyl == 6) %>% arrange(desc(wt)) %>% slice(1) %>%
   select(make, wt)
 
+
+# 18: Create a histogram showing the distribution of 1/4 mile time (`qsec`).
+
+ggplot(df_mtcars, aes(x = qsec)) +
+  geom_histogram(binwidth = 1, fill = "salmon", color = "white") +
+  labs(title = "Distribution of 1/4 Mile Time (qsec)",
+       x = "1/4 Mile Time (seconds)",
+       y = "Frequency") +
+  theme_minimal()
+
+# 19: The following script creates two tibbles:  
+# `df_length` (body length) and `df_weight` (body weight),  
+# each with a species code (`sp_code` column).  
+# Combine these two data frames based on `sp_code` and assign the result to `df_fish`.
+
+
+set.seed(123)
+v_l <- runif(150, 60, 150)
+v_w <- rnorm(n = length(v_l),
+             mean = 0.1 * v_l^1.5,
+             sd = 10)
+
+v_sp <- sample(c("bhc", "rbs", "gsf"),
+               size = length(v_l),
+               replace = TRUE)
+
+df_length <- tibble(length = v_l,
+                    sp_code = v_sp)
+
+df_weight <- tibble(weight = v_w,
+                    sp_code = sample(c("bhc", "rbs", "gsf"),
+                                     size = length(v_l),
+                                     replace = TRUE))
+##My code
+
+set.seed(123)
+v_l <- runif(150, 60, 150)
+v_w <- rnorm(n = length(v_l),
+             mean = 0.1 * v_l^1.5,
+             sd = 10)
+
+v_sp <- sample(c("bhc", "rbs", "gsf"),
+               size = length(v_l),
+               replace = TRUE)
+
+# Tibbles creation
+df_length <- tibble(length = v_l,
+                    sp_code = v_sp)
+
+df_weight <- tibble(weight = v_w,
+                    sp_code = sample(c("bhc", "rbs", "gsf"),
+                                     size = length(v_l),
+                                     replace = TRUE))
+
+# Joining by sp_code
+df_fish <- inner_join(df_length, df_weight, by = "sp_code")
+
+# 20: Draw a scatter plot (point plot) of `length` vs. `weight` from `df_fish`,  
+# coloring the points by species code (`sp_code`).
+
+library(ggplot2)
+
+ggplot(df_fish, aes(x = length, y = weight, color = sp_code)) +
+  geom_point(alpha = 0.7, size = 2) +
+  labs(title = "Fish Length vs. Weight by Species Code",
+       x = "Length (mm)",
+       y = "Weight (g)",
+       color = "Species Code") +
+  theme_minimal()
