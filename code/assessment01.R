@@ -82,10 +82,12 @@ v_w <- rnorm(n = length(v_l),
              mean = 0.1 * v_l^1.5,
              sd = 10)
 
+v_sp <- sample(c("bhc", "rbs", "gsf"),
+       size = length(v_l),
+       replace = TRUE)
+
 df_length <- tibble(length = v_l,
-                    sp_code = sample(c("bhc", "rbs", "gsf"),
-                                     size = length(v_l),
-                                     replace = TRUE))
+                    sp_code = v_sp)
 
 df_weight <- tibble(weight = v_w,
                     sp_code = sample(c("bhc", "rbs", "gsf"),
@@ -94,3 +96,157 @@ df_weight <- tibble(weight = v_w,
 
 # 20: Draw a scatter plot (point plot) of `length` vs. `weight` from `df_fish`,  
 # coloring the points by species code (`sp_code`).
+
+
+
+# Assessment 01 -----------------------------------------------------------
+
+# 1: Create a vector with three elements. Assign it to `v_three`.
+
+v_three <- c(10, 20, 30)
+print(v_three)
+
+# 2: Create a vector containing 20 "a", 30 "b", and 50 "c" (total length = 100).  
+# Assign it to `v_abc100`.
+
+v_abc100 <- c(rep("a", 20), rep("b", 30), rep("c", 50))
+
+print(v_abc100)
+
+# 3: The script below creates a vector `v_x` with 100 random numbers from a normal distribution.  
+# Select only the positive numbers (> 0) from `v_x`, calculate their mean, and assign it to `mu_x_plus`.
+set.seed(100)
+v_x <- rnorm(100)
+
+set.seed(100)
+v_x <- rnorm(100)
+
+# Select only the positive numbers
+v_x_plus <- v_x[v_x > 0]
+
+# Calculate the mean of the positive numbers
+mu_x_plus <- mean(v_x_plus)
+
+# Display the result
+print(mu_x_plus)
+
+# 4: Create a numeric matrix with the numbers 1 through 9 arranged in 3 rows × 3 columns.  
+# Assign it to `m_num`.
+
+m_num <- matrix(1:9, nrow = 3, ncol = 3)
+
+print(m_num)
+
+# 5: Create a base R data frame (`data.frame()` function) using `v_x` and `v_abc100`.  
+# Name the columns `"x"` for `v_x` and `"group"` for `v_abc`, and assign it to `df_sample`.
+
+set.seed(100)
+v_abc100 <- sample(c("A", "B", "C"), size = 100, replace = TRUE)
+
+# Create the data frame
+df_sample <- data.frame(x = v_x, group = v_abc100)
+
+head(df_sample) 
+
+# 6: Load the `tidyverse` package.
+
+library(tidyverse)
+
+# 7: The `mtcars` dataset is a built-in base R data frame.  
+# Convert it to a tibble using `as_tibble()` and assign it to `df_mtcars`.  
+# Use `?as_tibble()` to read the documentation before doing so.
+
+library(tibble)
+
+df_mtcars <- as_tibble(mtcars)
+
+# View the tibble
+df_mtcars
+
+
+# 8: `mtcars` has the following columns:
+#
+# mpg   - Miles per gallon  
+# cyl   - Number of cylinders  
+# disp  - Engine displacement (cu. in.)  
+# hp    - Gross horsepower  
+# drat  - Rear axle ratio  
+# wt    - Weight (1,000 lbs)  
+# qsec  - 1/4 mile time (seconds)  
+# vs    - Engine shape (0 = V-shaped, 1 = straight)  
+# am    - Transmission (0 = automatic, 1 = manual)  
+# gear  - Number of forward gears  
+# carb  - Number of carburetors  
+#
+# Display the column names of `df_mtcars` using `colnames()`.  
+# Do NOT assign the result to a new object.
+
+colnames(df_mtcars)
+
+# 9: Extract the row names of the `mtcars` dataset using `rownames()`.  
+# Assign the result to `v_make`.
+
+v_make <- rownames(mtcars)
+
+head(v_make)
+
+# 10: Add `v_make` as a new column to `df_mtcars` and name the column `"make"`.
+
+df_mtcars_make <- v_make
+
+head(df_mtcars_make)
+
+# 11: Filter `df_mtcars` to include only rows where:  
+# - `mpg` is less than 20 AND  
+# - `disp` is greater than 200  
+# Assign the result to `df_subset`.
+
+df_subset <- df_mtcars[df_mtcars$mpg < 20 & df_mtcars$disp > 200, ]
+head(df_subset)
+
+# 12: Count how many car makes meet the above conditions (Q11).
+# Apply `nrow()` to `df_subset`.
+
+nrow(df_subset)
+
+# 13: Repeat Q11 and Q12 in a single pipeline (with %>%), and assign the result to `n_make`.
+
+library(dplyr)
+
+n_make <- df_mtcars %>%
+  filter(cyl == 4, am == 1)
+head(n_make)
+
+# 14: Convert the `cyl` column from numeric to factor using `factor()`.  
+# Add it to `df_mtcars` as a new column named `f_cyl` using `mutate()` function.
+
+df_mtcars <- df_mtcars %>%
+  mutate(f_cyl = factor(cyl))
+head(df_mtcars)
+
+# 15: Draw a box plot showing car weight (`wt`) for each number of cylinders (`f_cyl`).
+
+library(ggplot2)
+
+ggplot(df_mtcars, aes(x = f_cyl, y = wt)) +
+  geom_boxplot(fill = "skyblue", color = "darkblue") +
+  labs(title = "Car Weight",
+       x = "Number of Cylinders",
+       y = "Weight (1000 lbs)") +
+  theme_minimal()
+
+# 16: Calculate the average car weight (`wt`) separately for each number of cylinders (`cyl`).
+
+df_mtcars %>%
+  group_by(cyl) %>%
+  summarise(avg_wt = mean(wt)) 
+
+# 17: Identify the heaviest car make (`wt`) among cars with 6 cylinders (`cyl`).
+
+
+df_mtcars %>%
+  filter(cyl == 6) %>%
+  arrange(desc(wt)) %>%
+  slice(1) %>%
+  select(make, wt)
+
