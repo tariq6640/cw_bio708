@@ -153,4 +153,5 @@ iris %>%
   ggplot(aes(x = Species,
              y = Sepal.Length,
              fill = Species)) +
-  geom_boxplot() + geom_jitter(alpha=0.25)
+  geom_boxplot() + geom_jitter(alpha=0.25) +
+  guides(fill = "none")
