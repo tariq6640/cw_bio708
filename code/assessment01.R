@@ -192,8 +192,13 @@ head(v_make)
 
 # 10: Add `v_make` as a new column to `df_mtcars` and name the column `"make"`.
 
-df_mtcars_make <- v_make
+# Load dplyr for the pipe and mutate functions
+library(dplyr)
+# Add the 'make' column to df_mtcars
+df_mtcars_make <- df_mtcars %>%
+  mutate(make = v_make)
 
+# View the first few rows
 head(df_mtcars_make)
 
 # 11: Filter `df_mtcars` to include only rows where:  
@@ -201,7 +206,14 @@ head(df_mtcars_make)
 # - `disp` is greater than 200  
 # Assign the result to `df_subset`.
 
-df_subset <- df_mtcars[df_mtcars$mpg < 20 & df_mtcars$disp > 200, ]
+# Load dplyr for tidyverse functions
+library(dplyr)
+
+# Use filter() to subset the data
+df_subset <- df_mtcars %>%
+  filter(mpg < 20, disp > 200)
+
+# View the first few rows
 head(df_subset)
 
 # 12: Count how many car makes meet the above conditions (Q11).
@@ -210,12 +222,17 @@ head(df_subset)
 nrow(df_subset)
 
 # 13: Repeat Q11 and Q12 in a single pipeline (with %>%), and assign the result to `n_make`.
-
 library(dplyr)
 
-n_make <- df_mtcars %>%
+# Filter the dataframe first
+filtered_df <- df_mtcars %>%
   filter(cyl == 4, am == 1)
-head(n_make)
+
+# Get the number of columns
+n_make <- ncol(filtered_df)
+
+# View the result
+n_make
 
 # 14: Convert the `cyl` column from numeric to factor using `factor()`.  
 # Add it to `df_mtcars` as a new column named `f_cyl` using `mutate()` function.
