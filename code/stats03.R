@@ -80,8 +80,8 @@ print(df_count)
 df_count %>% 
   ggplot(aes(x = count)) +
   geom_histogram(binwidth = 0.5, 
-                 center = 0)
-
+                 center = 0) 
+x <- seq(0, 10, by = 1)
 lambda_hat <- mean(df_count$count)
 pm <- dpois(x, lambda = lambda_hat)
 
