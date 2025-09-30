@@ -58,7 +58,7 @@ lambda_hat <- mean(df_count$count)
 
 # Create theoretical Poisson probabilities
 x_vals <- seq(min(x), max(x), by = 1)
-pm <- rpois(x_vals, lambda = lambda_hat)
+pm <- dpois(x_vals, lambda = lambda_hat)
 
 # Create data frame for Poisson probabilities
 df_prob <- tibble(x = x_vals, y = pm) %>%
