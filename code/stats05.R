@@ -73,3 +73,4 @@ tibble(x = f_null,
 (p_value <- 1 - pf(q = f_value, 
                    df1 = 2, 
                    df2 = 147))  
+
